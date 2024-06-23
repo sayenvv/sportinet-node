@@ -1,0 +1,56 @@
+version: '3.8'
+
+networks:
+  node-network:
+    driver: bridge
+
+services:
+  mongo_db:
+    image: mongo:4.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+    # ports:
+    #   - '2717:27017'
+    command: mongod
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - node-network
+
+
+  user-service:
+    build:
+      context: .
+      dockerfile: user-service/node.dockerfile  # Ensure this path is correct
+    env_file:
+      - .env  # Make sure your .env file is correctly populated
+    volumes:
+      - ./user-service:/home/node/code/user-service/
+      - ./models:/home/node/code/models/
+    environment:
+      PORT : 3002
+      MONGO_URI: ${MONGO_URI}
+      DB_NAME : ${DATABASE}
+      
+    command: node ./src/index.js  # Correct path to your entry point
+    ports:
+      - '3001:3001'
+    depends_on:
+      - mongo_db
+    restart: always
+    networks:
+      - node-network
+
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - ${DOZZLE_PORT}:8080
+
+volumes:
+  mongo_data:
+
+
