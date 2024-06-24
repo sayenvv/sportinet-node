@@ -10,32 +10,27 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
-    # ports:
-    #   - '2717:27017'
-    command: mongod
     volumes:
-      - mongo_data:/data/db
+      - mongo_data:/data/database
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
       - node-network
-
 
   user-service:
     build:
       context: .
-      dockerfile: user-service/node.dockerfile  # Ensure this path is correct
+      dockerfile: user-service/node.dockerfile
     env_file:
-      - .env  # Make sure your .env file is correctly populated
+      - .env
     volumes:
       - ./user-service:/home/node/code/user-service/
       - ./models:/home/node/code/models/
     environment:
-      PORT : 3002
       MONGO_URI: ${MONGO_URI}
-      DB_NAME : ${DATABASE}
-      
-    command: node ./src/index.js  # Correct path to your entry point
+      DB_NAME: ${DATABASE}
+    command: node ./src/index.js
     ports:
-      - '3001:3001'
+      - '${USER_SERVICE_EXPOSED_PORT}:3001'
     depends_on:
       - mongo_db
     restart: always
@@ -52,5 +47,3 @@ services:
 
 volumes:
   mongo_data:
-
-

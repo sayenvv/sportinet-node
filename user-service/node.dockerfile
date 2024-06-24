@@ -15,7 +15,7 @@ RUN npm install
 COPY ./user-service/ /home/node/code/
 
 # Expose the port the app runs on
-EXPOSE 3001
+EXPOSE 8000
 
 # Set environment variables (if necessary, but typically set in docker-compose.yml or .env)
 # ENV NODE_ENV=production
