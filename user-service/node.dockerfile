@@ -6,7 +6,6 @@ WORKDIR /home/node/code/user-service/
 
 # Copy the package.json and package-lock.json files
 COPY ./package*.json /home/node/code/
-COPY ./package-lock*.json /home/node/code/
 
 # Install the project dependencies
 RUN npm install
@@ -21,4 +20,4 @@ EXPOSE 8000
 # ENV NODE_ENV=production
 
 # # Run the application
-CMD ["node", "src/index.js"]
+CMD ["npm", "run", "dev"]

@@ -25,10 +25,10 @@ services:
     volumes:
       - ./user-service:/home/node/code/user-service/
       - ./models:/home/node/code/models/
+      - ./shared:/home/node/code/shared/
     environment:
       MONGO_URI: ${MONGO_URI}
       DB_NAME: ${DATABASE}
-    command: node ./src/index.js
     ports:
       - '${USER_SERVICE_EXPOSED_PORT}:3001'
     depends_on:
