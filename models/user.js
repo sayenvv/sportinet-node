@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const Model = require('../shared/database/db_model');
+const {USER} = require('../user-service/constants/table_names')
 
-const userSchema = new mongoose.Schema({
+
+const User = new Model(USER,{
   username: {
     type: String,
     required: true,
@@ -21,6 +24,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model('User', userSchema);
-
-module.exports = User;
+module.exports = {User};
