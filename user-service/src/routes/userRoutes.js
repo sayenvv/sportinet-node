@@ -9,10 +9,6 @@ router.get('/list/', (req,res) => {
 router.get('/:id/', (req,res) => {
     getUser(req,res)
 
-}); 
-router.post('/', (req,res) => {
-    createUser(req,res)
 });
-
 
 module.exports = router;
