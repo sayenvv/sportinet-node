@@ -1,6 +1,8 @@
 // const twilioClient = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const JWT_SECRET = process.env.JWT_SECRET;
+const TOKEN_EXPIRY_TTL = process.env.TOKEN_EXPIRY_TTL;
 
 function isOTPValid(createdAt) {
     const currentTimestamp = new Date();
@@ -29,8 +31,13 @@ async function sendOTPViaTwilio(phoneNumber, otp) {
     }
 }
 
+function generateJwtToken(payload) {
+    return jwt.sign(payload, JWT_SECRET, { TOKEN_EXPIRY_TTL });
+}
+
 module.exports ={
     isOTPValid,
     generateOTP,
-    sendOTPViaTwilio
+    sendOTPViaTwilio,
+    generateJwtToken
 }

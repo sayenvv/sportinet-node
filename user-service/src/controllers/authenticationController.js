@@ -1,6 +1,6 @@
 const User = require('../../../models/user');
 const {UserTypes,AccountTypes} = require('../../constants/enums')
-const {isOTPValid,generateOTP} = require('../helpers/authentication')
+const {isOTPValid,generateOTP,generateJwtToken} = require('../helpers/authentication')
 
 
 
@@ -54,8 +54,9 @@ const verify_otp = async (req,res) => {
         // Update account status to ACTIVE
         current_user.account_status = AccountTypes.ACTIVE;
         await current_user.save();
+        const jwtToken = generateJwtToken({payload:current_user})
 
-        res.status(200).json({ message: "OTP verified successfully" });
+        res.status(200).json({ message: "OTP verified successfully" ,token:jwtToken});
     } else {
         res.status(422).json({ message: "OTP has expired or is invalid" });
     }

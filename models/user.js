@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Model = require('../shared/database/db_model');
 const {USER} = require('../user-service/constants/table_names')
 const {UserTypes,AccountTypes} = require('../user-service/constants/enums')
@@ -15,7 +14,6 @@ const User = new Model(
     email: {
       type: String,
       required: false,
-      unique: true,
       sparse: true, // Allows multiple documents to have no email (optional)
     },
     uid: {

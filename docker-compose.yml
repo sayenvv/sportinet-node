@@ -15,6 +15,10 @@ services:
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
       - node-network
+    profiles:
+      - all
+      - common
+      - user-service
 
   user-service:
     build:
@@ -30,12 +34,41 @@ services:
       MONGO_URI: ${MONGO_URI}
       DB_NAME: ${DATABASE}
     ports:
-      - '${USER_SERVICE_EXPOSED_PORT}:3001'
+      - '${USER_SERVICE_APP_EXPOSED_PORT}:3001'
     depends_on:
       - mongo_db
     restart: always
     networks:
       - node-network
+    profiles:
+      - all
+      - common
+      - user-service
+  
+  common:
+    build:
+      context: .
+      dockerfile: common/node.dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./common:/home/node/code/common/
+      - ./models:/home/node/code/models/
+      - ./shared:/home/node/code/shared/
+    environment:
+      MONGO_URI: ${MONGO_URI}
+      DB_NAME: ${DATABASE}
+    ports:
+      - '${COMMON_APP_EXPOSED_PORT}:3001'
+    depends_on:
+      - mongo_db
+    restart: always
+    networks:
+      - node-network
+    profiles:
+      - all
+      - common
+      - user-service
 
   dozzle:
     container_name: dozzle
@@ -44,6 +77,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - ${DOZZLE_PORT}:8080
+    profiles:
+      - all
 
 volumes:
   mongo_data:
