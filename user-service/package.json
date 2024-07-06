@@ -10,7 +10,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm test"
+      "pre-commit": "npm run restructure && npm run format && npm run update-deps && npm test"
     }
   },
   "dependencies": {
