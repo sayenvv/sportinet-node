@@ -40,7 +40,7 @@ const User = new Model(
     },
     temp_otp: {
       type: String,
-      required: true,
+      required: false,
     },
     created_at: {
       type: Date, // Corrected type to Date

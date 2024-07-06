@@ -1,5 +1,6 @@
 // const twilioClient = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 const jwt = require('jsonwebtoken');
+const User = require('../../../models/user');
 require('dotenv').config();
 const JWT_SECRET = process.env.JWT_SECRET;
 const TOKEN_EXPIRY_TTL = process.env.TOKEN_EXPIRY_TTL;
@@ -32,7 +33,7 @@ async function sendOTPViaTwilio(phoneNumber, otp) {
 }
 
 function generateJwtToken(payload) {
-    return jwt.sign(payload, JWT_SECRET, { TOKEN_EXPIRY_TTL });
+    return jwt.sign(payload, JWT_SECRET, { expiresIn: TOKEN_EXPIRY_TTL });
 }
 
 module.exports ={
