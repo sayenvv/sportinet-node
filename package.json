@@ -5,13 +5,23 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "restructure": "node scripts/restructure.js",
+    "format": "prettier --write ."
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,css,scss,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run restructure && npm run format && npm run update-deps && npm test"
+      "pre-commit": "lint-staged"
     }
   },
+  
+  
   "dependencies": {
     "dotenv": "^10.0.0",
     "express": "^4.19.2",
@@ -25,5 +35,4 @@
   "devDependencies": {
     "husky": "^9.0.11"
   }
-  
 }

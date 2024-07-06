@@ -1,14 +1,14 @@
-const User = require('../../../models/user'); // Correct path to user model
+const User = require("../../../models/user"); // Correct path to user model
 
 const getUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
-      res.status(404).json({ message: 'User not found' });
-    }else{
+      res.status(404).json({ message: "User not found" });
+    } else {
       res.json({
-        message:"success",
-        data:user,
+        message: "success",
+        data: user,
       });
     }
   } catch (err) {
@@ -16,25 +16,22 @@ const getUser = async (req, res) => {
   }
 };
 
-
-
 const list_all_users = async (req, res) => {
   try {
     const user_list = await User.find({}).populate();
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: user_list,
     });
   } catch (error) {
     res.status(400).json({
-      status: 'error',
+      status: "error",
       message: error.message,
     });
   }
 };
 
-
 module.exports = {
   getUser,
-  list_all_users
+  list_all_users,
 };

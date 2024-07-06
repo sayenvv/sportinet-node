@@ -1,4 +1,3 @@
-const USER = "User"
+const USER = "User";
 
-
-module.exports = {USER}
+module.exports = { USER };
