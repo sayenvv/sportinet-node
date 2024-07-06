@@ -4,8 +4,14 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js",
+    "lint": "eslint .",
     "dev": "nodemon src/index.js",
     "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test"
+    }
   },
   "dependencies": {
     "dotenv": "^10.0.0",
