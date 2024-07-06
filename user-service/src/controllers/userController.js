@@ -17,6 +17,7 @@ const getUser = async (req, res) => {
 };
 
 
+
 const list_all_users = async (req, res) => {
   try {
     const user_list = await User.find({}).populate();
